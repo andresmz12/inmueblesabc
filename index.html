@@ -1,549 +1,270 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InmueblesABC — Buscador Colombia</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --yellow: #F8C200;
-      --blue:   #003087;
-      --blue2:  #1a4f96;
-      --red:    #C8102E;
-      --bg:     #eef2f7;
-      --card:   #ffffff;
-      --text:   #1a2332;
-      --muted:  #6b7a8d;
-      --border: #dde4ee;
-      --radius: 14px;
-      --shadow: 0 4px 24px rgba(0,48,135,.10);
-    }
-
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* ── HEADER ── */
-    header {
-      background: linear-gradient(135deg, var(--blue) 0%, #1e3f7a 100%);
-      color: #fff;
-      padding: 2rem 1rem 1.6rem;
-      text-align: center;
-    }
-    header h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -.5px; }
-    header h1 span { color: var(--yellow); }
-    header p  { margin-top: .35rem; opacity: .82; font-size: .93rem; }
-
-    .badges {
-      display: flex; justify-content: center; flex-wrap: wrap;
-      gap: .55rem; margin-top: 1rem;
-    }
-    .badge {
-      background: rgba(255,255,255,.15);
-      border: 1px solid rgba(255,255,255,.30);
-      border-radius: 20px; padding: 3px 13px;
-      font-size: .78rem; font-weight: 600; letter-spacing: .3px;
-    }
-
-    /* ── MAIN ── */
-    main { max-width: 860px; margin: 2rem auto; padding: 0 1rem 3rem; }
-
-    .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 1.75rem 2rem 2rem;
-    }
-
-    .card-title {
-      font-size: 1rem; font-weight: 700; color: var(--blue);
-      padding-bottom: .7rem; margin-bottom: 1.4rem;
-      border-bottom: 3px solid var(--yellow);
-      display: flex; align-items: center; gap: .45rem;
-    }
-
-    /* ── FORM GRID ── */
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
-    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.1rem; }
-    .span2 { grid-column: 1 / -1; }
-
-    .fg { display: flex; flex-direction: column; gap: .35rem; }
-    .fg label {
-      font-size: .76rem; font-weight: 700; color: var(--muted);
-      text-transform: uppercase; letter-spacing: .55px;
-    }
-
-    select, input[type="text"] {
-      width: 100%; padding: .6rem .9rem;
-      border: 1.5px solid var(--border); border-radius: 8px;
-      font-size: .93rem; color: var(--text); background: #fff;
-      transition: border-color .18s, box-shadow .18s;
-      appearance: none; -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236b7a8d' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 11px center;
-      padding-right: 2.2rem;
-    }
-    input[type="text"] {
-      background-image: none;
-      padding-right: .9rem;
-    }
-    select:focus, input:focus {
-      outline: none; border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(0,48,135,.10);
-    }
-
-    /* ── RADIO TOGGLE ── */
-    .radio-row { display: flex; gap: .6rem; }
-    .rtoggle { flex: 1; position: relative; }
-    .rtoggle input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
-    .rtoggle label {
-      display: flex; align-items: center; justify-content: center;
-      padding: .6rem; border: 1.5px solid var(--border); border-radius: 8px;
-      cursor: pointer; font-size: .9rem; font-weight: 600;
-      color: var(--muted); transition: all .18s;
-      text-transform: none; letter-spacing: 0;
-    }
-    .rtoggle input:checked + label {
-      background: var(--blue); color: #fff; border-color: var(--blue);
-    }
-    .rtoggle label:hover { border-color: var(--blue2); color: var(--blue2); }
-    .rtoggle input:checked + label:hover { color: #fff; }
-
-    /* ── PRICE ── */
-    .price-wrap { position: relative; }
-    .price-wrap .sym {
-      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-      font-size: .8rem; font-weight: 700; color: var(--muted); pointer-events: none;
-    }
-    .price-wrap input[type="text"] { padding-left: 2.1rem; }
-
-    /* ── SECTION LABEL ── */
-    .section-sep {
-      grid-column: 1 / -1;
-      display: flex; align-items: center; gap: .7rem;
-      font-size: .76rem; font-weight: 700; color: var(--muted);
-      text-transform: uppercase; letter-spacing: .55px;
-      margin-top: .3rem;
-    }
-    .section-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-    /* ── BUTTON ── */
-    .btn-search {
-      width: 100%; margin-top: 1.6rem; padding: .95rem 1.5rem;
-      background: linear-gradient(135deg, var(--blue) 0%, var(--blue2) 100%);
-      color: #fff; border: none; border-radius: 10px;
-      font-size: 1.05rem; font-weight: 700; cursor: pointer;
-      letter-spacing: .2px; display: flex; align-items: center;
-      justify-content: center; gap: .6rem;
-      transition: transform .15s, box-shadow .15s;
-    }
-    .btn-search:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(0,48,135,.30);
-    }
-    .btn-search:active { transform: translateY(0); }
-
-    /* ── PORTAL CARDS ── */
-    .portals {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: .7rem; margin-top: 1.2rem;
-    }
-    .portal {
-      background: #fff; border-radius: 10px; padding: .85rem .6rem;
-      text-align: center; border: 1.5px solid var(--border);
-      transition: border-color .18s, transform .15s, box-shadow .15s;
-    }
-    .portal:hover {
-      border-color: var(--blue2);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,48,135,.12);
-    }
-    .portal .dot {
-      width: 30px; height: 30px; border-radius: 50%;
-      margin: 0 auto .45rem;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; font-weight: 900; color: #fff;
-    }
-    .portal .pname { font-size: .78rem; font-weight: 700; color: var(--text); }
-    .portal .pdesc { font-size: .7rem; color: var(--muted); margin-top: .15rem; }
-
-    .dot-mc   { background: #e8a200; }
-    .dot-fr   { background: #1a7a4a; }
-    .dot-pr   { background: #e53935; }
-    .dot-fb   { background: #1877f2; }
-
-    /* ── NOTE ── */
-    .note {
-      margin-top: 1rem; padding: .75rem 1rem;
-      background: #f0f5ff; border-left: 3px solid var(--blue);
-      border-radius: 0 8px 8px 0; font-size: .8rem; color: var(--muted);
-      line-height: 1.5;
-    }
-
-    @media (max-width: 620px) {
-      .grid2, .grid3 { grid-template-columns: 1fr; }
-      .span2 { grid-column: 1; }
-      .portals { grid-template-columns: repeat(2, 1fr); }
-      header h1 { font-size: 1.5rem; }
-      .card { padding: 1.25rem; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meraki Real Estate</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; }
+.container { max-width: 860px; margin: 0 auto; padding: 2rem 1rem; }
+.brand { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-icon { width: 40px; height: 40px; border-radius: 10px; background: #1D9E75; display: flex; align-items: center; justify-content: center; }
+.brand-icon svg { width: 22px; height: 22px; fill: none; stroke: white; stroke-width: 2; }
+.brand h1 { font-size: 24px; font-weight: 600; color: #1a1a1a; }
+.brand-sub { font-size: 14px; color: #666; margin-bottom: 1.5rem; padding-left: 50px; }
+.card { background: white; border: 1px solid #e8e8e8; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+.card-title { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+select, input[type="text"], input[type="number"] { width: 100%; padding: 10px 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; background: white; color: #1a1a1a; outline: none; transition: border 0.15s; }
+select:focus, input:focus { border-color: #1D9E75; }
+.price-wrap { position: relative; }
+.price-wrap input { padding-left: 26px; }
+.price-pre { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); font-size: 13px; color: #999; pointer-events: none; }
+.section-label { font-size: 11px; font-weight: 600; color: #bbb; text-transform: uppercase; letter-spacing: 0.05em; margin: 12px 0 8px; }
+.platforms { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.plat { padding: 10px 6px; border: 1px solid #e8e8e8; border-radius: 8px; font-size: 12px; cursor: pointer; text-align: center; background: white; color: #333; transition: all 0.15s; user-select: none; line-height: 1.3; }
+.plat:hover { border-color: #1D9E75; }
+.plat.active { border: 1.5px solid #1D9E75; background: #E1F5EE; color: #085041; }
+.plat-icon { font-size: 18px; display: block; margin-bottom: 4px; }
+.plat-cat { font-size: 10px; color: #aaa; margin-top: 2px; display: block; }
+.plat.active .plat-cat { color: #0F6E56; }
+.btn-search { width: 100%; padding: 14px; background: #1D9E75; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 1rem; transition: background 0.15s; }
+.btn-search:hover { background: #179066; }
+.results { margin-top: 1.5rem; }
+.res-header { font-size: 12px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+.notice { background: #E1F5EE; border: 1px solid #5DCAA5; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #085041; margin-bottom: 1rem; }
+.res-card { background: white; border: 1px solid #e8e8e8; border-radius: 12px; padding: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.res-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+.res-dot { width: 40px; height: 40px; border-radius: 8px; background: #E1F5EE; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.res-info { flex: 1; }
+.res-name { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+.res-meta { font-size: 12px; color: #888; margin-top: 2px; }
+.res-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+.tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #f5f5f5; color: #666; border: 1px solid #e8e8e8; }
+.visit-btn { font-size: 13px; color: #1D9E75; background: none; border: 1px solid #5DCAA5; border-radius: 8px; padding: 8px 16px; cursor: pointer; white-space: nowrap; font-weight: 500; transition: all 0.15s; }
+.visit-btn:hover { background: #E1F5EE; }
+.hidden { display: none; }
+@media (max-width: 600px) {
+  .platforms { grid-template-columns: repeat(2, 1fr); }
+  .row3 { grid-template-columns: 1fr 1fr; }
+}
+</style>
 </head>
 <body>
-
-<header>
-  <h1>🏠 Inmuebles<span>ABC</span></h1>
-  <p>Busca en todos los portales inmobiliarios de Colombia al mismo tiempo</p>
-  <div class="badges">
-    <span class="badge">Metrocuadrado</span>
-    <span class="badge">Fincaraíz</span>
-    <span class="badge">Properati</span>
-    <span class="badge">Facebook Marketplace</span>
+<div class="container">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <h1>Meraki Real Estate</h1>
   </div>
-</header>
+  <p class="brand-sub">Buscá inmuebles en todas las plataformas desde un solo lugar</p>
 
-<main>
   <div class="card">
-    <div class="card-title">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      Filtros de búsqueda
-    </div>
-
-    <form id="searchForm" autocomplete="off">
-
-      <!-- ROW 1: negocio + tipo -->
-      <div class="grid2">
-        <div class="fg">
-          <label>Tipo de negocio</label>
-          <div class="radio-row">
-            <div class="rtoggle">
-              <input type="radio" name="negocio" id="r-venta" value="venta" checked>
-              <label for="r-venta">🔑 Venta</label>
-            </div>
-            <div class="rtoggle">
-              <input type="radio" name="negocio" id="r-arriendo" value="arriendo">
-              <label for="r-arriendo">🏷️ Arriendo</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="fg">
-          <label for="tipo">Tipo de inmueble</label>
-          <select id="tipo" name="tipo">
-            <option value="apartamento">Apartamento</option>
-            <option value="casa">Casa</option>
-            <option value="apartaestudio">Apartaestudio</option>
-            <option value="penthouse">Penthouse</option>
-            <option value="casa-campestre">Casa Campestre</option>
-            <option value="finca">Finca</option>
-            <option value="oficina">Oficina</option>
-            <option value="local">Local Comercial</option>
-            <option value="bodega">Bodega</option>
-            <option value="lote">Lote / Terreno</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- ROW 2: ciudad + barrio -->
-      <div class="grid2" style="margin-top:1.1rem">
-        <div class="fg">
-          <label for="ciudad">Ciudad</label>
-          <select id="ciudad" name="ciudad">
-            <option value="bogota">Bogotá</option>
-            <option value="medellin">Medellín</option>
-            <option value="cali">Cali</option>
-            <option value="barranquilla">Barranquilla</option>
-            <option value="cartagena">Cartagena</option>
-            <option value="bucaramanga">Bucaramanga</option>
-            <option value="pereira">Pereira</option>
-            <option value="manizales">Manizales</option>
-            <option value="cucuta">Cúcuta</option>
-            <option value="ibague">Ibagué</option>
-            <option value="santa-marta">Santa Marta</option>
-            <option value="villavicencio">Villavicencio</option>
-            <option value="pasto">Pasto</option>
-            <option value="monteria">Montería</option>
-            <option value="neiva">Neiva</option>
-            <option value="armenia">Armenia</option>
-            <option value="popayan">Popayán</option>
-            <option value="valledupar">Valledupar</option>
-            <option value="bello">Bello</option>
-            <option value="envigado">Envigado</option>
-            <option value="itagui">Itagüí</option>
-            <option value="floridablanca">Floridablanca</option>
-            <option value="soacha">Soacha</option>
-            <option value="palmira">Palmira</option>
-            <option value="tunja">Tunja</option>
-            <option value="buenaventura">Buenaventura</option>
-            <option value="sincelejo">Sincelejo</option>
-          </select>
-        </div>
-
-        <div class="fg">
-          <label for="barrio">Barrio / Sector</label>
-          <input type="text" id="barrio" name="barrio" placeholder="Ej: Chapinero, El Poblado…">
-        </div>
-      </div>
-
-      <!-- SECTION: Precio -->
-      <div class="grid2" style="margin-top:1.4rem">
-        <div class="section-sep span2">Precio (COP)</div>
-
-        <div class="fg">
-          <label for="precioMin">Precio mínimo</label>
-          <div class="price-wrap">
-            <span class="sym">$</span>
-            <input type="text" id="precioMin" name="precioMin"
-                   placeholder="0" inputmode="numeric" maxlength="18">
-          </div>
-        </div>
-
-        <div class="fg">
-          <label for="precioMax">Precio máximo</label>
-          <div class="price-wrap">
-            <span class="sym">$</span>
-            <input type="text" id="precioMax" name="precioMax"
-                   placeholder="Sin límite" inputmode="numeric" maxlength="18">
-          </div>
-        </div>
-      </div>
-
-      <!-- SECTION: Características -->
-      <div class="grid3" style="margin-top:1.4rem">
-        <div class="section-sep span2" style="grid-column:1/-1">Características</div>
-
-        <div class="fg">
-          <label for="habitaciones">Habitaciones</label>
-          <select id="habitaciones" name="habitaciones">
-            <option value="">Indiferente</option>
-            <option value="1">1+</option>
-            <option value="2">2+</option>
-            <option value="3">3+</option>
-            <option value="4">4+</option>
-            <option value="5">5+</option>
-          </select>
-        </div>
-
-        <div class="fg">
-          <label for="banos">Baños</label>
-          <select id="banos" name="banos">
-            <option value="">Indiferente</option>
-            <option value="1">1+</option>
-            <option value="2">2+</option>
-            <option value="3">3+</option>
-            <option value="4">4+</option>
-          </select>
-        </div>
-
-        <div class="fg">
-          <label for="parqueadero">Parqueadero</label>
-          <select id="parqueadero" name="parqueadero">
-            <option value="">Indiferente</option>
-            <option value="1">Con parqueadero</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- SECTION: Área -->
-      <div class="grid2" style="margin-top:1.4rem">
-        <div class="section-sep span2">Área (m²)</div>
-
-        <div class="fg">
-          <label for="areaMin">Área mínima</label>
-          <input type="text" id="areaMin" name="areaMin"
-                 placeholder="Ej: 50" inputmode="numeric" maxlength="7">
-        </div>
-
-        <div class="fg">
-          <label for="areaMax">Área máxima</label>
-          <input type="text" id="areaMax" name="areaMax"
-                 placeholder="Sin límite" inputmode="numeric" maxlength="7">
-        </div>
-      </div>
-
-      <button type="submit" class="btn-search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Buscar en los 4 portales
-      </button>
-    </form>
-  </div>
-
-  <!-- Portal cards -->
-  <div class="portals">
-    <div class="portal">
-      <div class="dot dot-mc">M²</div>
-      <div class="pname">Metrocuadrado</div>
-      <div class="pdesc">metrocuadrado.com</div>
-    </div>
-    <div class="portal">
-      <div class="dot dot-fr">FR</div>
-      <div class="pname">Fincaraíz</div>
-      <div class="pdesc">fincaraiz.com.co</div>
-    </div>
-    <div class="portal">
-      <div class="dot dot-pr">P</div>
-      <div class="pname">Properati</div>
-      <div class="pdesc">properati.com.co</div>
-    </div>
-    <div class="portal">
-      <div class="dot dot-fb">f</div>
-      <div class="pname">Facebook</div>
-      <div class="pdesc">Marketplace</div>
+    <div class="card-title">Tipo de búsqueda</div>
+    <div class="row">
+      <select id="negocio">
+        <option value="arriendo">Arriendo</option>
+        <option value="venta">Compra / venta</option>
+        <option value="ambos">Ambos</option>
+      </select>
+      <select id="inmueble">
+        <option value="apartamento">Apartamento</option>
+        <option value="casa">Casa</option>
+        <option value="oficina">Oficina</option>
+        <option value="local">Local comercial</option>
+        <option value="lote">Lote / terreno</option>
+        <option value="finca">Finca / rural</option>
+      </select>
     </div>
   </div>
 
-  <div class="note">
-    💡 Al hacer clic en <strong>Buscar</strong> se abrirá una pestaña nueva por cada portal con los filtros aplicados directamente en la URL de cada plataforma.
+  <div class="card">
+    <div class="card-title">Ubicación</div>
+    <div class="row">
+      <input type="text" id="ciudad" placeholder="Ciudad" value="Medellín" />
+      <input type="text" id="barrio" placeholder="Barrio o zona (opcional)" />
+    </div>
   </div>
-</main>
+
+  <div class="card">
+    <div class="card-title">Precio (COP)</div>
+    <div class="row">
+      <div class="price-wrap"><span class="price-pre">$</span><input type="text" id="pmin" placeholder="Mínimo" inputmode="numeric" /></div>
+      <div class="price-wrap"><span class="price-pre">$</span><input type="text" id="pmax" placeholder="Máximo" inputmode="numeric" /></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Características</div>
+    <div class="row3">
+      <select id="hab"><option value="">Habitaciones</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option><option value="5">5+</option></select>
+      <select id="ban"><option value="">Baños</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select>
+      <select id="park"><option value="">Parqueadero</option><option value="si">Sí</option><option value="no">No importa</option></select>
+    </div>
+    <div class="row" style="margin-top:10px;">
+      <input type="number" id="amin" placeholder="Área mín m²" />
+      <input type="number" id="amax" placeholder="Área máx m²" />
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Buscar en</div>
+    <div class="section-label">Portales inmobiliarios</div>
+    <div class="platforms">
+      <div class="plat active" data-src="metrocuadrado" onclick="togglePlat(this)"><span class="plat-icon">🏠</span>Metrocuadrado<span class="plat-cat">portal</span></div>
+      <div class="plat active" data-src="fincaraiz" onclick="togglePlat(this)"><span class="plat-icon">🏡</span>Fincaraíz<span class="plat-cat">portal</span></div>
+      <div class="plat active" data-src="properati" onclick="togglePlat(this)"><span class="plat-icon">🔍</span>Properati<span class="plat-cat">portal</span></div>
+      <div class="plat active" data-src="ciencuadras" onclick="togglePlat(this)"><span class="plat-icon">🏢</span>Ciencuadras<span class="plat-cat">portal</span></div>
+    </div>
+    <div class="section-label">Marketplaces y redes</div>
+    <div class="platforms">
+      <div class="plat active" data-src="facebook" onclick="togglePlat(this)"><span class="plat-icon">📢</span>Facebook<span class="plat-cat">marketplace</span></div>
+      <div class="plat active" data-src="mercadolibre" onclick="togglePlat(this)"><span class="plat-icon">🛒</span>Mercado Libre<span class="plat-cat">marketplace</span></div>
+      <div class="plat active" data-src="instagram" onclick="togglePlat(this)"><span class="plat-icon">📸</span>Instagram<span class="plat-cat">inmobiliarias</span></div>
+    </div>
+  </div>
+
+  <button class="btn-search" onclick="buscar()">Buscar inmuebles</button>
+  <div id="results" class="results hidden"></div>
+</div>
 
 <script>
-  /* ── Price formatting ── */
-  function toRaw(str) {
-    return str.replace(/\./g, '').replace(/\D/g, '');
-  }
+function togglePlat(el) { el.classList.toggle('active'); }
 
-  function formatDots(str) {
-    const digits = toRaw(str);
-    if (!digits) return '';
-    return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  }
+function fmt(val) {
+  const r = val.replace(/\./g,'').replace(/\D/g,'');
+  return r ? parseInt(r).toLocaleString('es-CO').replace(/,/g,'.') : '';
+}
+function raw(id) { return document.getElementById(id).value.replace(/\./g,'').replace(/\D/g,''); }
 
-  ['precioMin', 'precioMax'].forEach(id => {
-    const el = document.getElementById(id);
-    el.addEventListener('input', () => {
-      const pos = el.selectionStart;
-      const raw = toRaw(el.value);
-      el.value = formatDots(raw);
-      // keep cursor near end while typing
-    });
+['pmin','pmax'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', function() {
+    const c = this.selectionStart, pl = this.value.length;
+    this.value = fmt(this.value);
+    const d = this.value.length - pl;
+    this.setSelectionRange(c+d, c+d);
+  });
+});
+
+function getPlats() { return [...document.querySelectorAll('.plat.active')].map(b => b.dataset.src); }
+
+function buildUrl(src, p) {
+  const ciudad = (p.ciudad||'medellin').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  const q = [p.inmueble, p.negocio==='venta'?'venta':'arriendo', p.barrio].filter(Boolean).join(' ');
+  const urls = {
+    metrocuadrado: () => {
+      const tm={arriendo:'arrendar',venta:'venta',ambos:'arrendar'};
+      const im={apartamento:'apartamento',casa:'casa',oficina:'oficina',local:'local-comercial',lote:'lote',finca:'finca'};
+      let u=`https://www.metrocuadrado.com/${im[p.inmueble]||'apartamento'}/${tm[p.negocio]||'arrendar'}/${ciudad}/`;
+      const qs=[];
+      if(p.pmin) qs.push(`precioMinimo=${p.pmin}`);
+      if(p.pmax) qs.push(`precioMaximo=${p.pmax}`);
+      if(p.hab) qs.push(`numHabitaciones=${p.hab}`);
+      if(p.ban) qs.push(`numBanos=${p.ban}`);
+      return u+(qs.length?'?'+qs.join('&'):'');
+    },
+    fincaraiz: () => {
+      const tm={arriendo:'arriendo',venta:'venta',ambos:'arriendo'};
+      const im={apartamento:'apartamentos',casa:'casas',oficina:'oficinas',local:'locales-comerciales',lote:'lotes',finca:'fincas'};
+      let u=`https://www.fincaraiz.com.co/${im[p.inmueble]||'apartamentos'}/${tm[p.negocio]||'arriendo'}/${ciudad.replace(/\s/g,'-')}/`;
+      const qs=[];
+      if(p.pmin) qs.push(`precioDesde=${p.pmin}`);
+      if(p.pmax) qs.push(`precioHasta=${p.pmax}`);
+      if(p.hab) qs.push(`habitaciones=${p.hab}`);
+      return u+(qs.length?'?'+qs.join('&'):'');
+    },
+    properati: () => {
+      const tm={arriendo:'alquiler',venta:'venta',ambos:'alquiler'};
+      const im={apartamento:'departamento',casa:'casa',oficina:'oficina',local:'local',lote:'terreno',finca:'finca'};
+      let u=`https://www.properati.com.co/${im[p.inmueble]||'departamento'}/${tm[p.negocio]||'alquiler'}/${ciudad.replace(/\s/g,'-')}/`;
+      const qs=[];
+      if(p.pmin) qs.push(`price_from=${p.pmin}`);
+      if(p.pmax) qs.push(`price_to=${p.pmax}`);
+      if(p.hab) qs.push(`rooms_from=${p.hab}`);
+      return u+(qs.length?'?'+qs.join('&'):'');
+    },
+    ciencuadras: () => {
+      const tm={arriendo:'arriendo',venta:'venta',ambos:'arriendo'};
+      const im={apartamento:'apartamento',casa:'casa',oficina:'oficina',local:'local',lote:'lote',finca:'finca'};
+      let u=`https://www.ciencuadras.com/${im[p.inmueble]||'apartamento'}/${tm[p.negocio]||'arriendo'}/${ciudad.replace(/\s/g,'-')}/`;
+      const qs=[];
+      if(p.pmin) qs.push(`canon_desde=${p.pmin}`);
+      if(p.pmax) qs.push(`canon_hasta=${p.pmax}`);
+      return u+(qs.length?'?'+qs.join('&'):'');
+    },
+    facebook: () => `https://www.facebook.com/marketplace/category/propertyforsale/?query=${encodeURIComponent(q)}&location=${encodeURIComponent(p.ciudad||'Medellín')}`,
+    mercadolibre: () => `https://listado.mercadolibre.com.co/${encodeURIComponent(q.replace(/\s/g,'-'))}_OrderId_PRICE_NoIndex_True`,
+    instagram: () => `https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent('inmobiliaria '+p.ciudad+' '+p.inmueble+' '+p.negocio)}`
+  };
+  return urls[src] ? urls[src]() : '#';
+}
+
+const platInfo = {
+  metrocuadrado:{name:'Metrocuadrado',icon:'🏠'},
+  fincaraiz:{name:'Fincaraíz',icon:'🏡'},
+  properati:{name:'Properati',icon:'🔍'},
+  ciencuadras:{name:'Ciencuadras',icon:'🏢'},
+  facebook:{name:'Facebook Marketplace',icon:'📢'},
+  mercadolibre:{name:'Mercado Libre',icon:'🛒'},
+  instagram:{name:'Instagram inmobiliarias',icon:'📸'}
+};
+
+function fmtPrecio(v) {
+  if(!v) return null;
+  const n=parseInt(v);
+  if(n>=1000000) return '$'+(n/1000000).toFixed(1)+'M';
+  if(n>=1000) return '$'+(n/1000).toFixed(0)+'K';
+  return '$'+n;
+}
+
+function buscar() {
+  const plats = getPlats();
+  if(!plats.length) { alert('Seleccioná al menos una plataforma'); return; }
+  const p = {
+    negocio: document.getElementById('negocio').value,
+    inmueble: document.getElementById('inmueble').value,
+    ciudad: document.getElementById('ciudad').value||'Medellín',
+    barrio: document.getElementById('barrio').value,
+    pmin: raw('pmin'), pmax: raw('pmax'),
+    hab: document.getElementById('hab').value,
+    ban: document.getElementById('ban').value,
+    park: document.getElementById('park').value,
+    amin: document.getElementById('amin').value,
+    amax: document.getElementById('amax').value,
+  };
+  const pm=fmtPrecio(p.pmin), px=fmtPrecio(p.pmax);
+  const precioLabel=pm&&px?`${pm} – ${px}`:pm?`Desde ${pm}`:px?`Hasta ${px}`:'Sin límite de precio';
+  const tags=[p.inmueble,p.negocio,p.hab?p.hab+' hab+':null,p.ban?p.ban+' baños+':null,p.park==='si'?'parqueadero':null,p.amin?'desde '+p.amin+'m²':null].filter(Boolean);
+
+  let html=`<div class="res-header">${plats.length} fuente${plats.length>1?'s':''} · ${p.ciudad}${p.barrio?', '+p.barrio:''}</div>`;
+  html+=`<div class="notice">Hacé clic en "Visitar" para abrir cada plataforma con tus filtros aplicados.</div>`;
+
+  plats.forEach(src => {
+    const info=platInfo[src];
+    if(!info) return;
+    const url=buildUrl(src,p);
+    html+=`<div class="res-card">
+      <div class="res-left">
+        <div class="res-dot">${info.icon}</div>
+        <div class="res-info">
+          <div class="res-name">${info.name}</div>
+          <div class="res-meta">${precioLabel}</div>
+          <div class="res-tags">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        </div>
+      </div>
+      <button class="visit-btn" onclick="window.open('${url}','_blank')">Visitar →</button>
+    </div>`;
   });
 
-  /* ── URL builders ── */
-  const fincaraizPluralMap = {
-    'apartamento': 'apartamentos',
-    'casa': 'casas',
-    'apartaestudio': 'apartaestudios',
-    'penthouse': 'penthouses',
-    'casa-campestre': 'casas-campestres',
-    'finca': 'fincas',
-    'oficina': 'oficinas',
-    'local': 'locales',
-    'bodega': 'bodegas',
-    'lote': 'lotes',
-  };
-
-  const properatiTypeMap = {
-    'apartamento': 'apartamento',
-    'casa': 'casa',
-    'apartaestudio': 'estudio',
-    'penthouse': 'penthouse',
-    'casa-campestre': 'casa-campestre',
-    'finca': 'finca',
-    'oficina': 'oficina',
-    'local': 'local-comercial',
-    'bodega': 'bodega',
-    'lote': 'terreno',
-  };
-
-  function buildMetrocuadrado(d) {
-    const base = `https://www.metrocuadrado.com/${d.tipo}/${d.negocio}/${d.ciudad}/`;
-    const p = new URLSearchParams({ search: '1' });
-    if (d.precioMin) p.set('price_min', d.precioMin);
-    if (d.precioMax) p.set('price_max', d.precioMax);
-    if (d.habitaciones) p.set('rooms_min', d.habitaciones);
-    if (d.banos) p.set('bathrooms_min', d.banos);
-    if (d.parqueadero) p.set('garages', d.parqueadero);
-    if (d.areaMin) p.set('area_min', d.areaMin);
-    if (d.areaMax) p.set('area_max', d.areaMax);
-    if (d.barrio) p.set('q', d.barrio);
-    return base + '?' + p.toString();
-  }
-
-  function buildFincaraiz(d) {
-    const plural = fincaraizPluralMap[d.tipo] || (d.tipo + 's');
-    const base = `https://www.fincaraiz.com.co/${plural}-en-${d.negocio}/${d.ciudad}/`;
-    const p = new URLSearchParams();
-    if (d.precioMin) p.set('precioMinimo', d.precioMin);
-    if (d.precioMax) p.set('precioMaximo', d.precioMax);
-    if (d.habitaciones) p.set('habitaciones', d.habitaciones);
-    if (d.banos) p.set('banos', d.banos);
-    if (d.parqueadero) p.set('parqueadero', d.parqueadero);
-    if (d.areaMin) p.set('areaMinima', d.areaMin);
-    if (d.areaMax) p.set('areaMaxima', d.areaMax);
-    if (d.barrio) p.set('q', d.barrio);
-    const qs = p.toString();
-    return base + (qs ? '?' + qs : '');
-  }
-
-  function buildProperati(d) {
-    const ptype = properatiTypeMap[d.tipo] || d.tipo;
-    const base = `https://www.properati.com.co/s/${d.ciudad}/${ptype}/${d.negocio}/`;
-    const p = new URLSearchParams();
-    if (d.precioMin) p.set('price_min', d.precioMin);
-    if (d.precioMax) p.set('price_max', d.precioMax);
-    if (d.habitaciones) p.set('bedrooms_min', d.habitaciones);
-    if (d.banos) p.set('bathrooms_min', d.banos);
-    if (d.parqueadero) p.set('parking_spaces_min', d.parqueadero);
-    if (d.areaMin) p.set('surface_total_min', d.areaMin);
-    if (d.areaMax) p.set('surface_total_max', d.areaMax);
-    if (d.barrio) p.set('q', d.barrio);
-    const qs = p.toString();
-    return base + (qs ? '?' + qs : '');
-  }
-
-  function buildFacebook(d) {
-    const category = d.negocio === 'venta' ? 'propertyforsale' : 'propertyforrent';
-    // Facebook usa el nombre de ciudad en la ruta; normalizar guiones por espacios
-    const fbCity = d.ciudad.replace(/-/g, '');
-    const base = `https://www.facebook.com/marketplace/${fbCity}/${category}/`;
-    const p = new URLSearchParams();
-    if (d.precioMin) p.set('minPrice', d.precioMin);
-    if (d.precioMax) p.set('maxPrice', d.precioMax);
-    if (d.barrio) p.set('query', d.barrio);
-    const qs = p.toString();
-    return base + (qs ? '?' + qs : '');
-  }
-
-  /* ── Submit ── */
-  document.getElementById('searchForm').addEventListener('submit', e => {
-    e.preventDefault();
-
-    const f = e.target;
-    const negocio = f.querySelector('input[name="negocio"]:checked').value;
-    const tipo = f.tipo.value;
-    const ciudad = f.ciudad.value;
-    const barrio = f.barrio.value.trim();
-
-    const precioMin = toRaw(f.precioMin.value);
-    const precioMax = toRaw(f.precioMax.value);
-    const habitaciones = f.habitaciones.value;
-    const banos = f.banos.value;
-    const parqueadero = f.parqueadero.value;
-    const areaMin = f.areaMin.value.replace(/\D/g, '');
-    const areaMax = f.areaMax.value.replace(/\D/g, '');
-
-    const d = { negocio, tipo, ciudad, barrio, precioMin, precioMax,
-                habitaciones, banos, parqueadero, areaMin, areaMax };
-
-    const urls = [
-      buildMetrocuadrado(d),
-      buildFincaraiz(d),
-      buildProperati(d),
-      buildFacebook(d),
-    ];
-
-    // Small delay between windows to avoid popup blockers
-    urls.forEach((url, i) => {
-      setTimeout(() => window.open(url, '_blank', 'noopener'), i * 120);
-    });
-  });
+  const r=document.getElementById('results');
+  r.innerHTML=html;
+  r.classList.remove('hidden');
+  r.scrollIntoView({behavior:'smooth',block:'start'});
+}
 </script>
 </body>
 </html>
