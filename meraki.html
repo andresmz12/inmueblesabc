@@ -35,8 +35,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 select,input[type=text],input[type=number]{width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:14px;background:white;color:#1a1a1a;outline:none;transition:border .15s}
 select:focus,input:focus{border-color:#1D9E75}
-.pw{position:relative}
-.pw input{padding-left:26px}
+.pw{position:relative}.pw input{padding-left:26px}
 .pp{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;color:#aaa;pointer-events:none}
 .sec-label{font-size:11px;font-weight:700;color:#ccc;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 8px}
 .plats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -54,39 +53,50 @@ select:focus,input:focus{border-color:#1D9E75}
 .btn-search.loading .btn-text{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 .results{margin-top:1.5rem}
-.res-header{font-size:13px;font-weight:600;color:#888;margin-bottom:12px}
-.prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.prop-card{background:white;border:1px solid #e8e8e8;border-radius:12px;overflow:hidden;transition:border-color .15s}
-.prop-card:hover{border-color:#1D9E75}
-.prop-img{width:100%;height:160px;background:#f0f8f5;display:flex;align-items:center;justify-content:center;font-size:48px}
+.res-header{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:6px}
+.res-sub{font-size:12px;color:#888;margin-bottom:16px}
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-bottom:2rem}
+.prop-card{background:white;border:1px solid #e8e8e8;border-radius:12px;overflow:hidden;transition:box-shadow .15s}
+.prop-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+.prop-img{width:100%;height:155px;background:linear-gradient(135deg,#e8f5f0,#c8ead8);display:flex;align-items:center;justify-content:center;font-size:44px}
 .prop-body{padding:14px}
-.prop-price{font-size:18px;font-weight:700;color:#1D9E75;margin-bottom:4px}
-.prop-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:4px;line-height:1.3}
-.prop-loc{font-size:12px;color:#999;margin-bottom:8px}
-.prop-specs{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.prop-spec{font-size:12px;color:#666}
-.prop-source{font-size:11px;color:#bbb;margin-bottom:10px}
+.prop-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;background:#E1F5EE;color:#0F6E56;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.prop-price{font-size:19px;font-weight:700;color:#1D9E75;margin-bottom:3px}
+.prop-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;line-height:1.4}
+.prop-loc{font-size:12px;color:#999;margin-bottom:8px;display:flex;align-items:center;gap:3px}
+.prop-specs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.prop-spec{font-size:11px;color:#666;background:#f5f5f5;padding:3px 7px;border-radius:5px}
 .prop-btn{display:block;width:100%;padding:9px;background:#1D9E75;color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;transition:background .15s}
 .prop-btn:hover{background:#179066}
-.fallback-cards{display:flex;flex-direction:column;gap:10px}
-.fallback-card{background:white;border:1px solid #e8e8e8;border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.fl{display:flex;align-items:center;gap:12px;flex:1}
-.fdot{width:40px;height:40px;border-radius:8px;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.fi .name{font-size:14px;font-weight:600;color:#1a1a1a}
-.fi .meta{font-size:12px;color:#999;margin-top:2px}
-.fi .tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
-.tag{font-size:11px;padding:2px 8px;border-radius:20px;background:#f5f5f5;color:#777;border:1px solid #eee}
-.vbtn{font-size:13px;color:#1D9E75;background:none;border:1px solid #a8dfc9;border-radius:8px;padding:8px 16px;cursor:pointer;white-space:nowrap;font-weight:600}
-.vbtn:hover{background:#E1F5EE}
-.err{background:#fff3f3;border:1px solid #ffcdd2;border-radius:10px;padding:14px 16px;font-size:14px;color:#c62828;margin-bottom:12px}
-.notice{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:8px;padding:10px 14px;font-size:13px;color:#085041;margin-bottom:12px}
+.prop-btn.disabled{background:#ddd;color:#aaa;cursor:default}
+.section-divider{margin:1.5rem 0 1rem;padding-bottom:8px;border-bottom:1px solid #eee}
+.section-divider h3{font-size:13px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em}
+.portal-cards{display:flex;flex-direction:column;gap:8px}
+.portal-card{background:white;border:1px solid #e8e8e8;border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;transition:border-color .15s}
+.portal-card:hover{border-color:#1D9E75}
+.pl{display:flex;align-items:center;gap:12px;flex:1}
+.pdot{width:38px;height:38px;border-radius:8px;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.pi .name{font-size:14px;font-weight:600;color:#1a1a1a}
+.pi .meta{font-size:12px;color:#999;margin-top:1px}
+.pi .tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.tag{font-size:11px;padding:2px 7px;border-radius:20px;background:#f5f5f5;color:#777;border:1px solid #eee}
+.vbtn{font-size:13px;color:#1D9E75;background:none;border:1.5px solid #1D9E75;border-radius:8px;padding:8px 16px;cursor:pointer;white-space:nowrap;font-weight:600;transition:all .15s}
+.vbtn:hover{background:#1D9E75;color:white}
+.social-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.social-card{background:white;border:1px solid #e8e8e8;border-radius:10px;padding:14px;text-align:center}
+.social-icon{font-size:28px;margin-bottom:6px}
+.social-name{font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.social-desc{font-size:11px;color:#999;margin-bottom:10px;line-height:1.4}
+.social-btn{display:block;width:100%;padding:8px;border:1.5px solid #1D9E75;color:#1D9E75;background:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;text-decoration:none}
+.social-btn:hover{background:#1D9E75;color:white}
+.err{background:#fff3f3;border:1px solid #ffcdd2;border-radius:10px;padding:12px 16px;font-size:13px;color:#c62828;margin-bottom:12px}
+.info{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:8px;padding:10px 14px;font-size:13px;color:#085041;margin-bottom:12px}
 .hidden{display:none}
-@media(max-width:600px){.plats{grid-template-columns:repeat(2,1fr)}.row3{grid-template-columns:1fr 1fr}.prop-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.plats{grid-template-columns:repeat(2,1fr)}.row3{grid-template-columns:1fr 1fr}.prop-grid{grid-template-columns:1fr}.social-cards{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="container">
-
   <div class="brand">
     <div class="brand-icon">
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -97,10 +107,9 @@ select:focus,input:focus{border-color:#1D9E75}
 
   <div class="api-banner" id="apiBanner">
     <div class="api-dot"></div>
-    <p id="apiMsg">Para ver inmuebles reales necesitás una API key de Anthropic.</p>
+    <p id="apiMsg">Configurá tu API key para buscar inmuebles reales con IA.</p>
     <span class="api-toggle" id="apiToggle" onclick="toggleApiForm()">Configurar</span>
   </div>
-
   <div class="api-form" id="apiForm">
     <label>API Key de Anthropic</label>
     <div class="api-row">
@@ -156,11 +165,16 @@ select:focus,input:focus{border-color:#1D9E75}
       <div class="plat active" data-src="properati" onclick="togglePlat(this)"><span class="plat-icon">🔍</span>Properati<span class="plat-cat">portal</span></div>
       <div class="plat active" data-src="ciencuadras" onclick="togglePlat(this)"><span class="plat-icon">🏢</span>Ciencuadras<span class="plat-cat">portal</span></div>
     </div>
-    <div class="sec-label">Marketplaces y redes</div>
-    <div class="plats">
+    <div class="sec-label">Marketplaces</div>
+    <div class="plats" style="grid-template-columns:repeat(3,1fr)">
       <div class="plat active" data-src="facebook" onclick="togglePlat(this)"><span class="plat-icon">📢</span>Facebook<span class="plat-cat">marketplace</span></div>
       <div class="plat active" data-src="mercadolibre" onclick="togglePlat(this)"><span class="plat-icon">🛒</span>Mercado Libre<span class="plat-cat">marketplace</span></div>
+      <div class="plat active" data-src="olx" onclick="togglePlat(this)"><span class="plat-icon">📋</span>OLX<span class="plat-cat">marketplace</span></div>
+    </div>
+    <div class="sec-label">Redes sociales</div>
+    <div class="plats" style="grid-template-columns:repeat(2,1fr)">
       <div class="plat active" data-src="instagram" onclick="togglePlat(this)"><span class="plat-icon">📸</span>Instagram<span class="plat-cat">inmobiliarias</span></div>
+      <div class="plat active" data-src="facebook_grupos" onclick="togglePlat(this)"><span class="plat-icon">👥</span>Grupos Facebook<span class="plat-cat">comunidades</span></div>
     </div>
   </div>
 
@@ -168,7 +182,6 @@ select:focus,input:focus{border-color:#1D9E75}
     <div class="spinner"></div>
     <span class="btn-text">Buscar inmuebles</span>
   </button>
-
   <div id="results" class="results hidden"></div>
 </div>
 
@@ -178,23 +191,19 @@ let apiKey=localStorage.getItem('meraki_api_key')||'';
 function init(){
   if(apiKey){
     document.getElementById('apiBanner').classList.add('connected');
-    document.getElementById('apiMsg').textContent='API key configurada. Lista para buscar inmuebles reales.';
+    document.getElementById('apiMsg').textContent='API key activa — búsqueda inteligente con IA habilitada.';
     document.getElementById('apiToggle').textContent='Cambiar';
     document.getElementById('apiKeyInput').value=apiKey;
   }
 }
 
-function toggleApiForm(){
-  document.getElementById('apiForm').classList.toggle('show');
-}
+function toggleApiForm(){document.getElementById('apiForm').classList.toggle('show')}
 
 function saveApiKey(){
   const k=document.getElementById('apiKeyInput').value.trim();
   if(!k.startsWith('sk-ant-')){alert('La key debe empezar con sk-ant-');return;}
-  apiKey=k;
-  localStorage.setItem('meraki_api_key',k);
-  document.getElementById('apiForm').classList.remove('show');
-  init();
+  apiKey=k;localStorage.setItem('meraki_api_key',k);
+  document.getElementById('apiForm').classList.remove('show');init();
 }
 
 function togglePlat(el){el.classList.toggle('active')}
@@ -214,99 +223,290 @@ function raw(id){return document.getElementById(id).value.replace(/\./g,'').repl
 function fmtP(v){
   if(!v)return null;
   const n=parseInt(v);
-  if(n>=1000000)return'$'+(n/1000000).toFixed(1)+'M';
+  if(n>=1000000000)return'$'+(n/1000000000).toFixed(1)+'B';
+  if(n>=1000000)return'$'+(n/1000000).toFixed(0)+'M';
   if(n>=1000)return'$'+(n/1000).toFixed(0)+'K';
   return'$'+n;
 }
 
-function buildUrl(src,p){
-  const c=(p.ciudad||'medellin').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-  const q=[p.inmueble,p.negocio,p.barrio].filter(Boolean).join(' ');
-  const m={
-    metrocuadrado:()=>{const tm={arriendo:'arrendar',venta:'venta'};const im={apartamento:'apartamento',casa:'casa',oficina:'oficina',local:'local-comercial',lote:'lote',finca:'finca'};let u=`https://www.metrocuadrado.com/${im[p.inmueble]||'apartamento'}/${tm[p.negocio]||'arrendar'}/${c}/`;const qs=[];if(p.pmin)qs.push(`precioMinimo=${p.pmin}`);if(p.pmax)qs.push(`precioMaximo=${p.pmax}`);if(p.hab)qs.push(`numHabitaciones=${p.hab}`);if(p.ban)qs.push(`numBanos=${p.ban}`);return u+(qs.length?'?'+qs.join('&'):'')},
-    fincaraiz:()=>{const tm={arriendo:'arriendo',venta:'venta'};const im={apartamento:'apartamentos',casa:'casas',oficina:'oficinas',local:'locales-comerciales',lote:'lotes',finca:'fincas'};let u=`https://www.fincaraiz.com.co/${im[p.inmueble]||'apartamentos'}/${tm[p.negocio]||'arriendo'}/${c.replace(/\s/g,'-')}/`;const qs=[];if(p.pmin)qs.push(`precioDesde=${p.pmin}`);if(p.pmax)qs.push(`precioHasta=${p.pmax}`);if(p.hab)qs.push(`habitaciones=${p.hab}`);return u+(qs.length?'?'+qs.join('&'):'')},
-    properati:()=>{const tm={arriendo:'alquiler',venta:'venta'};const im={apartamento:'departamento',casa:'casa',oficina:'oficina',local:'local',lote:'terreno',finca:'finca'};let u=`https://www.properati.com.co/${im[p.inmueble]||'departamento'}/${tm[p.negocio]||'alquiler'}/${c.replace(/\s/g,'-')}/`;const qs=[];if(p.pmin)qs.push(`price_from=${p.pmin}`);if(p.pmax)qs.push(`price_to=${p.pmax}`);return u+(qs.length?'?'+qs.join('&'):'')},
-    ciencuadras:()=>`https://www.ciencuadras.com/${p.inmueble||'apartamento'}/${p.negocio||'arriendo'}/${c.replace(/\s/g,'-')}/`,
-    facebook:()=>`https://www.facebook.com/marketplace/category/propertyforsale/?query=${encodeURIComponent(q)}&location=${encodeURIComponent(p.ciudad||'Medellín')}`,
-    mercadolibre:()=>`https://listado.mercadolibre.com.co/${encodeURIComponent(q.replace(/\s/g,'-'))}_OrderId_PRICE_NoIndex_True`,
-    instagram:()=>`https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent('inmobiliaria '+p.ciudad+' '+p.inmueble)}`
+function getParams(){
+  return{
+    negocio:document.getElementById('negocio').value,
+    inmueble:document.getElementById('inmueble').value,
+    ciudad:document.getElementById('ciudad').value||'Medellín',
+    barrio:document.getElementById('barrio').value,
+    pmin:raw('pmin'),pmax:raw('pmax'),
+    hab:document.getElementById('hab').value,
+    ban:document.getElementById('ban').value,
+    park:document.getElementById('park').value,
+    amin:document.getElementById('amin').value,
+    amax:document.getElementById('amax').value
   };
-  return m[src]?m[src]():'#';
 }
 
-const PI={metrocuadrado:{n:'Metrocuadrado',i:'🏠'},fincaraiz:{n:'Fincaraíz',i:'🏡'},properati:{n:'Properati',i:'🔍'},ciencuadras:{n:'Ciencuadras',i:'🏢'},facebook:{n:'Facebook Marketplace',i:'📢'},mercadolibre:{n:'Mercado Libre',i:'🛒'},instagram:{n:'Instagram',i:'📸'}};
+function buildUrl(src,p){
+  const c=(p.ciudad||'medellin').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s/g,'-');
+  const ciudad=p.ciudad||'Medellín';
+  const inmueble=p.inmueble||'apartamento';
+  const negocio=p.negocio||'arriendo';
+  const barrio=p.barrio||'';
+  const q=[inmueble,negocio==='venta'?'venta':'arriendo',ciudad,barrio].filter(Boolean).join(' ');
+  const qEnc=encodeURIComponent(q);
+
+  const urls={
+    metrocuadrado:()=>{
+      const tm={arriendo:'arrendar',venta:'venta'};
+      const im={apartamento:'apartamento',casa:'casa',oficina:'oficina',local:'local-comercial',lote:'lote',finca:'finca'};
+      let u=`https://www.metrocuadrado.com/${im[inmueble]||'apartamento'}/${tm[negocio]||'arrendar'}/${c}/`;
+      const qs=[];
+      if(p.pmin)qs.push(`precioMinimo=${p.pmin}`);
+      if(p.pmax)qs.push(`precioMaximo=${p.pmax}`);
+      if(p.hab)qs.push(`numHabitaciones=${p.hab}`);
+      if(p.ban)qs.push(`numBanos=${p.ban}`);
+      if(p.amin)qs.push(`areaMinima=${p.amin}`);
+      if(p.amax)qs.push(`areaMaxima=${p.amax}`);
+      return u+(qs.length?'?'+qs.join('&'):'');
+    },
+    fincaraiz:()=>{
+      const tm={arriendo:'arriendo',venta:'venta'};
+      const im={apartamento:'apartamentos',casa:'casas',oficina:'oficinas',local:'locales-comerciales',lote:'lotes',finca:'fincas'};
+      let u=`https://www.fincaraiz.com.co/${im[inmueble]||'apartamentos'}/${tm[negocio]||'arriendo'}/${c}/`;
+      const qs=[];
+      if(p.pmin)qs.push(`precioDesde=${p.pmin}`);
+      if(p.pmax)qs.push(`precioHasta=${p.pmax}`);
+      if(p.hab)qs.push(`habitaciones=${p.hab}`);
+      if(p.ban)qs.push(`banos=${p.ban}`);
+      if(p.amin)qs.push(`areaDesde=${p.amin}`);
+      if(p.amax)qs.push(`areaHasta=${p.amax}`);
+      return u+(qs.length?'?'+qs.join('&'):'');
+    },
+    properati:()=>{
+      const tm={arriendo:'alquiler',venta:'venta'};
+      const im={apartamento:'departamento',casa:'casa',oficina:'oficina',local:'local',lote:'terreno',finca:'finca'};
+      let u=`https://www.properati.com.co/${im[inmueble]||'departamento'}/${tm[negocio]||'alquiler'}/${c}/`;
+      const qs=[];
+      if(p.pmin)qs.push(`price_from=${p.pmin}`);
+      if(p.pmax)qs.push(`price_to=${p.pmax}`);
+      if(p.hab)qs.push(`rooms_from=${p.hab}`);
+      if(p.amin)qs.push(`surface_from=${p.amin}`);
+      return u+(qs.length?'?'+qs.join('&'):'');
+    },
+    ciencuadras:()=>{
+      const tm={arriendo:'arriendo',venta:'venta'};
+      const im={apartamento:'apartamento',casa:'casa',oficina:'oficina',local:'local',lote:'lote',finca:'finca'};
+      let u=`https://www.ciencuadras.com/${im[inmueble]||'apartamento'}/${tm[negocio]||'arriendo'}/${c}/`;
+      const qs=[];
+      if(p.pmin)qs.push(`valor_desde=${p.pmin}`);
+      if(p.pmax)qs.push(`valor_hasta=${p.pmax}`);
+      if(p.hab)qs.push(`habitaciones=${p.hab}`);
+      return u+(qs.length?'?'+qs.join('&'):'');
+    },
+    facebook:()=>{
+      const qs=[];
+      if(p.pmin)qs.push(`minPrice=${p.pmin}`);
+      if(p.pmax)qs.push(`maxPrice=${p.pmax}`);
+      const base=`https://www.facebook.com/marketplace/${c}/propertyrentals/`;
+      return base+(qs.length?'?'+qs.join('&')+'&query='+encodeURIComponent(inmueble+' '+ciudad):'?query='+encodeURIComponent(inmueble+' '+ciudad));
+    },
+    mercadolibre:()=>{
+      const im={apartamento:'apartamento',casa:'casa',oficina:'oficina',local:'local-comercial',lote:'terreno',finca:'finca-rural'};
+      const tm={arriendo:'alquiler',venta:'venta'};
+      let u=`https://inmuebles.mercadolibre.com.co/${im[inmueble]||'apartamento'}/${tm[negocio]||'alquiler'}/`;
+      const qs=[];
+      if(p.pmin&&p.pmax)qs.push(`price=${p.pmin}-${p.pmax}`);
+      else if(p.pmin)qs.push(`price=${p.pmin}-*`);
+      else if(p.pmax)qs.push(`price=*-${p.pmax}`);
+      if(barrio||ciudad)u+=`${encodeURIComponent((barrio||ciudad).toLowerCase())}/`;
+      return u+(qs.length?'?'+qs.join('&'):'');
+    },
+    olx:()=>{
+      const qs=[`q=${encodeURIComponent(inmueble+' '+negocio+' '+ciudad)}`];
+      if(p.pmin)qs.push(`pe=${p.pmin}`);
+      if(p.pmax)qs.push(`ps=${p.pmax}`);
+      return`https://www.olx.com.co/items/q-${encodeURIComponent(inmueble+'-'+negocio+'-'+ciudad)}?`+qs.join('&');
+    },
+    instagram:()=>{
+      const tags=['inmobiliaria'+ciudad.replace(/\s/g,''),'arriendo'+inmueble+ciudad.replace(/\s/g,''),inmueble+'medellin',negocio+inmueble,'propiedadesencolombia'];
+      return`https://www.instagram.com/explore/tags/${encodeURIComponent(tags[0].toLowerCase())}/`;
+    },
+    facebook_grupos:()=>{
+      return`https://www.facebook.com/search/groups/?q=${encodeURIComponent('inmuebles '+negocio+' '+ciudad)}`;
+    }
+  };
+  return urls[src]?urls[src]():'#';
+}
+
+function getSocialInfo(src,p){
+  const ciudad=p.ciudad||'Medellín';
+  const inmueble=p.inmueble||'apartamento';
+  const negocio=p.negocio||'arriendo';
+  const tag1=(inmueble+ciudad).replace(/\s/g,'').toLowerCase();
+  const tag2=(negocio+inmueble).replace(/\s/g,'').toLowerCase();
+  const infos={
+    instagram:{
+      name:'Instagram',icon:'📸',
+      desc:`Buscá inmobiliarias en ${ciudad}`,
+      links:[
+        {label:'#'+tag1,url:`https://www.instagram.com/explore/tags/${tag1}/`},
+        {label:'#'+tag2,url:`https://www.instagram.com/explore/tags/${tag2}/`},
+        {label:'#inmobiliaria'+ciudad.replace(/\s/g,'').toLowerCase(),url:`https://www.instagram.com/explore/tags/inmobiliaria${ciudad.replace(/\s/g,'').toLowerCase()}/`},
+        {label:'Buscar cuentas',url:`https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent('inmobiliaria '+ciudad+' '+inmueble)}`}
+      ]
+    },
+    facebook_grupos:{
+      name:'Grupos de Facebook',icon:'👥',
+      desc:`Grupos de ${negocio} en ${ciudad}`,
+      links:[
+        {label:'Grupos de inmuebles',url:`https://www.facebook.com/search/groups/?q=${encodeURIComponent('inmuebles '+negocio+' '+ciudad)}`},
+        {label:'Grupos de arriendo',url:`https://www.facebook.com/search/groups/?q=${encodeURIComponent('arriendo '+inmueble+' '+ciudad)}`},
+        {label:'Finca raíz '+ciudad,url:`https://www.facebook.com/search/groups/?q=${encodeURIComponent('finca raiz '+ciudad)}`},
+        {label:'Compra venta',url:`https://www.facebook.com/search/groups/?q=${encodeURIComponent('compra venta inmuebles '+ciudad)}`}
+      ]
+    }
+  };
+  return infos[src];
+}
+
+const PI={
+  metrocuadrado:{n:'Metrocuadrado',i:'🏠',tipo:'portal'},
+  fincaraiz:{n:'Fincaraíz',i:'🏡',tipo:'portal'},
+  properati:{n:'Properati',i:'🔍',tipo:'portal'},
+  ciencuadras:{n:'Ciencuadras',i:'🏢',tipo:'portal'},
+  facebook:{n:'Facebook Marketplace',i:'📢',tipo:'marketplace'},
+  mercadolibre:{n:'Mercado Libre',i:'🛒',tipo:'marketplace'},
+  olx:{n:'OLX',i:'📋',tipo:'marketplace'},
+  instagram:{n:'Instagram',i:'📸',tipo:'social'},
+  facebook_grupos:{n:'Grupos Facebook',i:'👥',tipo:'social'}
+};
 
 async function buscar(){
   const plats=getPlats();
   if(!plats.length){alert('Seleccioná al menos una plataforma');return;}
-  const p={negocio:document.getElementById('negocio').value,inmueble:document.getElementById('inmueble').value,ciudad:document.getElementById('ciudad').value||'Medellín',barrio:document.getElementById('barrio').value,pmin:raw('pmin'),pmax:raw('pmax'),hab:document.getElementById('hab').value,ban:document.getElementById('ban').value,park:document.getElementById('park').value,amin:document.getElementById('amin').value,amax:document.getElementById('amax').value};
+  const p=getParams();
   const btn=document.getElementById('btnSearch');
   btn.classList.add('loading');btn.disabled=true;
   const div=document.getElementById('results');
   div.classList.remove('hidden');
   div.innerHTML='<div class="res-header">Buscando inmuebles...</div>';
-  if(apiKey)await buscarIA(p,plats,div);
-  else fallback(p,plats,div);
+
+  const portales=plats.filter(s=>PI[s]?.tipo==='portal'||PI[s]?.tipo==='marketplace');
+  const sociales=plats.filter(s=>PI[s]?.tipo==='social');
+
+  let html='';
+
+  if(apiKey&&portales.length){
+    html+=await buscarIA(p,portales);
+  }
+
+  html+=renderPortales(p,portales,!!apiKey);
+  html+=renderSociales(p,sociales);
+
+  div.innerHTML=html||'<div class="info">No hay resultados. Seleccioná al menos una plataforma.</div>';
   btn.classList.remove('loading');btn.disabled=false;
   div.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-async function buscarIA(p,plats,div){
+async function buscarIA(p,plats){
   const pm=fmtP(p.pmin),px=fmtP(p.pmax);
   const ps=pm&&px?`entre ${pm} y ${px}`:pm?`desde ${pm}`:px?`hasta ${px}`:'cualquier precio';
-  const pls=plats.map(s=>PI[s]?.n||s).join(', ');
-  const prompt=`Usa web_search para buscar anuncios REALES y ACTIVOS de ${p.inmueble} en ${p.negocio} en ${p.ciudad}${p.barrio?', '+p.barrio:''}, precio ${ps} COP.${p.hab?' Mín '+p.hab+' habitaciones.':''}${p.ban?' Mín '+p.ban+' baños.':''}${p.park==='si'?' Con parqueadero.':''}${p.amin?' Área mín '+p.amin+' m².':''}
+  const pls=plats.filter(s=>PI[s]?.tipo==='portal').map(s=>PI[s]?.n).filter(Boolean).join(', ');
+  if(!pls)return'';
 
-Busca en: ${pls}.
+  const prompt=`Busca en internet anuncios REALES y ACTIVOS de ${p.inmueble} en ${p.negocio} en ${p.ciudad}${p.barrio?', zona '+p.barrio:''}.
+Precio: ${ps} COP.${p.hab?' Mínimo '+p.hab+' habitaciones.':''}${p.ban?' Mínimo '+p.ban+' baños.':''}${p.park==='si'?' Con parqueadero.':''}${p.amin?' Área mínima '+p.amin+' m².':''}${p.amax?' Área máxima '+p.amax+' m².':''}
+Busca en estos portales colombianos: ${pls}, fincaraiz.com.co, metrocuadrado.com.
 
-REGLAS ESTRICTAS:
-- Solo incluir inmuebles que encontraste realmente en los resultados de búsqueda web.
-- El campo "url" debe ser el link EXACTO del anuncio (no la homepage del portal).
-- No inventes ni rellenes datos que no aparezcan en el anuncio.
-- Si no encontraste ningún resultado real, devuelve {"inmuebles":[]}.
+IMPORTANTE:
+- Solo incluí inmuebles con URL EXACTA y REAL del anuncio (no la homepage)
+- El precio debe estar dentro del rango solicitado
+- Si no encontrás nada real devolvé {"inmuebles":[]}
+- No inventes datos
 
-Devuelve SOLO JSON sin markdown:
-{"inmuebles":[{"titulo":"...","precio":"...","ubicacion":"...","habitaciones":"...","banos":"...","area":"...","fuente":"...","url":"..."}]}`;
+Respondé SOLO con JSON sin markdown:
+{"inmuebles":[{"titulo":"","precio":"","ubicacion":"","habitaciones":"","banos":"","area":"","fuente":"","url":""}]}`;
 
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:4000,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:3000,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})
+    });
     if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'Error API');}
     const data=await res.json();
     const tb=data.content.find(b=>b.type==='text');
-    if(!tb)throw new Error('Sin respuesta del modelo');
+    if(!tb)throw new Error('Sin respuesta');
     const clean=tb.text.replace(/```json|```/g,'').trim();
     const match=clean.match(/\{[\s\S]*\}/);
-    const json=JSON.parse(match?match[0]:clean);
-    if(!json.inmuebles?.length){
-      div.innerHTML=`<div class="err">No se encontraron inmuebles reales con esos filtros. Intentá con otros criterios o usá los portales directamente.</div>`;
-      fallback(p,plats,div,true);
-      return;
-    }
-    let html=`<div class="res-header">${json.inmuebles.length} inmuebles encontrados · ${p.ciudad}${p.barrio?', '+p.barrio:''}</div><div class="prop-grid">`;
+    if(!match)throw new Error('Formato inválido');
+    const json=JSON.parse(match[0]);
+    if(!json.inmuebles?.length)return'';
+
+    let html=`<div class="res-header">🔍 ${json.inmuebles.length} inmuebles encontrados con IA</div><div class="res-sub">${p.ciudad}${p.barrio?', '+p.barrio:''} · Resultados reales de internet</div><div class="prop-grid">`;
     json.inmuebles.forEach(item=>{
-      const hasUrl=item.url&&item.url!='#'&&item.url.startsWith('http');
-      html+=`<div class="prop-card"><div class="prop-img">🏠</div><div class="prop-body"><div class="prop-price">${item.precio||'Consultar'}</div><div class="prop-title">${item.titulo}</div><div class="prop-loc">📍 ${item.ubicacion||p.ciudad}</div><div class="prop-specs">${item.habitaciones?`<span class="prop-spec">🛏 ${item.habitaciones} hab</span>`:''} ${item.banos?`<span class="prop-spec">🚿 ${item.banos} baños</span>`:''} ${item.area?`<span class="prop-spec">📐 ${item.area}</span>`:''}</div><div class="prop-source">Fuente: ${item.fuente}</div>${hasUrl?`<a class="prop-btn" href="${item.url}" target="_blank" rel="noopener">Ver anuncio →</a>`:`<button class="prop-btn" disabled style="background:#ccc">Sin link</button>`}</div></div>`;
+      const hasUrl=item.url&&item.url.startsWith('http');
+      html+=`<div class="prop-card">
+        <div class="prop-img">🏠</div>
+        <div class="prop-body">
+          <span class="prop-badge">${item.fuente||'Portal'}</span>
+          <div class="prop-price">${item.precio||'Consultar'}</div>
+          <div class="prop-title">${item.titulo||'Inmueble en '+p.ciudad}</div>
+          <div class="prop-loc">📍 ${item.ubicacion||p.ciudad}</div>
+          <div class="prop-specs">
+            ${item.habitaciones?`<span class="prop-spec">🛏 ${item.habitaciones} hab</span>`:''}
+            ${item.banos?`<span class="prop-spec">🚿 ${item.banos} baños</span>`:''}
+            ${item.area?`<span class="prop-spec">📐 ${item.area}</span>`:''}
+          </div>
+          ${hasUrl?`<a class="prop-btn" href="${item.url}" target="_blank" rel="noopener">Ver anuncio →</a>`:`<div class="prop-btn disabled">Sin link directo</div>`}
+        </div>
+      </div>`;
     });
     html+='</div>';
-    div.innerHTML=html;
+    return html;
   }catch(e){
-    div.innerHTML=`<div class="err">Error: ${e.message}</div>`;
-    fallback(p,plats,div,true);
+    return`<div class="err">⚠️ Búsqueda IA: ${e.message}</div>`;
   }
 }
 
-function fallback(p,plats,div,append=false){
+function renderPortales(p,plats,tieneIA){
+  if(!plats.length)return'';
   const pm=fmtP(p.pmin),px=fmtP(p.pmax);
-  const pl=pm&&px?`${pm} – ${px}`:pm?`Desde ${pm}`:px?`Hasta ${px}`:'Sin límite';
-  const tags=[p.inmueble,p.negocio,p.hab?p.hab+' hab+':null,p.ban?p.ban+' baños+':null,p.park==='si'?'parqueadero':null].filter(Boolean);
-  let html=`<div class="notice">Abrí cada plataforma con tus filtros ya aplicados.</div><div class="fallback-cards">`;
+  const precioLabel=pm&&px?`${pm} – ${px}`:pm?`Desde ${pm}`:px?`Hasta ${px}`:'Sin límite de precio';
+  const tags=[p.inmueble,p.negocio,p.hab?p.hab+' hab+':null,p.ban?p.ban+' baños+':null,p.park==='si'?'con parqueadero':null,p.amin?'desde '+p.amin+'m²':null].filter(Boolean);
+
+  let html=`<div class="section-divider"><h3>${tieneIA?'También buscá directamente en':'Buscá directamente en'} los portales</h3></div><div class="portal-cards">`;
   plats.forEach(src=>{
     const info=PI[src];if(!info)return;
     const url=buildUrl(src,p);
-    html+=`<div class="fallback-card"><div class="fl"><div class="fdot">${info.i}</div><div class="fi"><div class="name">${info.n}</div><div class="meta">${pl}</div><div class="tags">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div></div><button class="vbtn" onclick="window.open('${url}','_blank')">Visitar →</button></div>`;
+    html+=`<div class="portal-card">
+      <div class="pl">
+        <div class="pdot">${info.i}</div>
+        <div class="pi">
+          <div class="name">${info.n}</div>
+          <div class="meta">${precioLabel}</div>
+          <div class="tags">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        </div>
+      </div>
+      <button class="vbtn" onclick="window.open('${url}','_blank')">Abrir →</button>
+    </div>`;
   });
   html+='</div>';
-  if(append)div.innerHTML+=html;else div.innerHTML=html;
+  return html;
+}
+
+function renderSociales(p,plats){
+  if(!plats.length)return'';
+  let html=`<div class="section-divider"><h3>Redes sociales y grupos</h3></div><div class="social-cards">`;
+  plats.forEach(src=>{
+    const info=getSocialInfo(src,p);if(!info)return;
+    html+=`<div class="social-card">
+      <div class="social-icon">${info.icon}</div>
+      <div class="social-name">${info.name}</div>
+      <div class="social-desc">${info.desc}</div>
+      ${info.links.map(l=>`<a class="social-btn" href="${l.url}" target="_blank" rel="noopener" style="margin-bottom:6px;display:block">${l.label}</a>`).join('')}
+    </div>`;
+  });
+  html+='</div>';
+  return html;
 }
 
 init();
