@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meraki Real Estate</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;color:#1a1a1a;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:2rem 1rem 4rem}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.brand-icon{width:40px;height:40px;border-radius:10px;background:#1D9E75;display:flex;align-items:center;justify-content:center}
+.brand-icon svg{width:22px;height:22px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand h1{font-size:24px;font-weight:700;color:#1a1a1a}
+.brand-sub{font-size:14px;color:#888;margin-bottom:1.5rem;padding-left:50px}
+.api-banner{background:#fff8e1;border:1px solid #ffd54f;border-radius:10px;padding:14px 18px;margin-bottom:1.25rem;display:flex;align-items:center;gap:12px}
+.api-banner.connected{background:#e8f5e9;border-color:#81c784}
+.api-dot{width:10px;height:10px;border-radius:50%;background:#ffc107;flex-shrink:0}
+.api-banner.connected .api-dot{background:#4caf50}
+.api-banner p{font-size:14px;color:#555;flex:1}
+.api-banner.connected p{color:#2e7d32}
+.api-toggle{font-size:13px;font-weight:600;color:#1D9E75;cursor:pointer;text-decoration:underline;white-space:nowrap}
+.api-form{background:white;border:1px solid #e8e8e8;border-radius:10px;padding:16px;margin-bottom:1rem;display:none}
+.api-form.show{display:block}
+.api-form label{font-size:12px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px}
+.api-row{display:flex;gap:8px}
+.api-row input{flex:1;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;font-family:monospace;outline:none}
+.api-row input:focus{border-color:#1D9E75}
+.api-row button{padding:10px 18px;background:#1D9E75;color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer}
+.api-note{font-size:12px;color:#aaa;margin-top:8px}
+.api-note a{color:#1D9E75}
+.card{background:white;border:1px solid #e8e8e8;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.card-title{font-size:11px;font-weight:700;color:#bbb;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+select,input[type=text],input[type=number]{width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:14px;background:white;color:#1a1a1a;outline:none;transition:border .15s}
+select:focus,input:focus{border-color:#1D9E75}
+.pw{position:relative}
+.pw input{padding-left:26px}
+.pp{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;color:#aaa;pointer-events:none}
+.sec-label{font-size:11px;font-weight:700;color:#ccc;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 8px}
+.plats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.plat{padding:10px 6px;border:1px solid #e8e8e8;border-radius:8px;font-size:12px;cursor:pointer;text-align:center;background:white;color:#555;transition:all .15s;user-select:none;line-height:1.3}
+.plat:hover{border-color:#1D9E75}
+.plat.active{border:1.5px solid #1D9E75;background:#E1F5EE;color:#085041}
+.plat-icon{font-size:18px;display:block;margin-bottom:4px}
+.plat-cat{font-size:10px;color:#bbb;margin-top:2px;display:block}
+.plat.active .plat-cat{color:#0F6E56}
+.btn-search{width:100%;padding:15px;background:#1D9E75;color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:1rem;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-search:hover{background:#179066}
+.btn-search:disabled{background:#ccc;cursor:not-allowed}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.btn-search.loading .spinner{display:block}
+.btn-search.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.results{margin-top:1.5rem}
+.res-header{font-size:13px;font-weight:600;color:#888;margin-bottom:12px}
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.prop-card{background:white;border:1px solid #e8e8e8;border-radius:12px;overflow:hidden;transition:border-color .15s}
+.prop-card:hover{border-color:#1D9E75}
+.prop-img{width:100%;height:160px;background:#f0f8f5;display:flex;align-items:center;justify-content:center;font-size:48px}
+.prop-body{padding:14px}
+.prop-price{font-size:18px;font-weight:700;color:#1D9E75;margin-bottom:4px}
+.prop-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:4px;line-height:1.3}
+.prop-loc{font-size:12px;color:#999;margin-bottom:8px}
+.prop-specs{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.prop-spec{font-size:12px;color:#666}
+.prop-source{font-size:11px;color:#bbb;margin-bottom:10px}
+.prop-btn{display:block;width:100%;padding:9px;background:#1D9E75;color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;transition:background .15s}
+.prop-btn:hover{background:#179066}
+.fallback-cards{display:flex;flex-direction:column;gap:10px}
+.fallback-card{background:white;border:1px solid #e8e8e8;border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.fl{display:flex;align-items:center;gap:12px;flex:1}
+.fdot{width:40px;height:40px;border-radius:8px;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.fi .name{font-size:14px;font-weight:600;color:#1a1a1a}
+.fi .meta{font-size:12px;color:#999;margin-top:2px}
+.fi .tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:11px;padding:2px 8px;border-radius:20px;background:#f5f5f5;color:#777;border:1px solid #eee}
+.vbtn{font-size:13px;color:#1D9E75;background:none;border:1px solid #a8dfc9;border-radius:8px;padding:8px 16px;cursor:pointer;white-space:nowrap;font-weight:600}
+.vbtn:hover{background:#E1F5EE}
+.err{background:#fff3f3;border:1px solid #ffcdd2;border-radius:10px;padding:14px 16px;font-size:14px;color:#c62828;margin-bottom:12px}
+.notice{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:8px;padding:10px 14px;font-size:13px;color:#085041;margin-bottom:12px}
+.hidden{display:none}
+@media(max-width:600px){.plats{grid-template-columns:repeat(2,1fr)}.row3{grid-template-columns:1fr 1fr}.prop-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <h1>Meraki Real Estate</h1>
+  </div>
+  <p class="brand-sub">Encontrá tu próximo inmueble en un solo lugar</p>
+
+  <div class="api-banner" id="apiBanner">
+    <div class="api-dot"></div>
+    <p id="apiMsg">Para ver inmuebles reales necesitás una API key de Anthropic.</p>
+    <span class="api-toggle" id="apiToggle" onclick="toggleApiForm()">Configurar</span>
+  </div>
+
+  <div class="api-form" id="apiForm">
+    <label>API Key de Anthropic</label>
+    <div class="api-row">
+      <input type="password" id="apiKeyInput" placeholder="sk-ant-..." />
+      <button onclick="saveApiKey()">Guardar</button>
+    </div>
+    <p class="api-note">Conseguí tu key en <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> · Se guarda solo en tu navegador</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Tipo de búsqueda</div>
+    <div class="row">
+      <select id="negocio"><option value="arriendo">Arriendo</option><option value="venta">Compra / venta</option></select>
+      <select id="inmueble"><option value="apartamento">Apartamento</option><option value="casa">Casa</option><option value="oficina">Oficina</option><option value="local">Local comercial</option><option value="lote">Lote / terreno</option><option value="finca">Finca / rural</option></select>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Ubicación</div>
+    <div class="row">
+      <input type="text" id="ciudad" placeholder="Ciudad" value="Medellín"/>
+      <input type="text" id="barrio" placeholder="Barrio o zona (opcional)"/>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Precio (COP)</div>
+    <div class="row">
+      <div class="pw"><span class="pp">$</span><input type="text" id="pmin" placeholder="Mínimo" inputmode="numeric"/></div>
+      <div class="pw"><span class="pp">$</span><input type="text" id="pmax" placeholder="Máximo" inputmode="numeric"/></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Características</div>
+    <div class="row3">
+      <select id="hab"><option value="">Habitaciones</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option><option value="5">5+</option></select>
+      <select id="ban"><option value="">Baños</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select>
+      <select id="park"><option value="">Parqueadero</option><option value="si">Sí</option><option value="no">No importa</option></select>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <input type="number" id="amin" placeholder="Área mín m²"/>
+      <input type="number" id="amax" placeholder="Área máx m²"/>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Buscar en</div>
+    <div class="sec-label">Portales inmobiliarios</div>
+    <div class="plats">
+      <div class="plat active" data-src="metrocuadrado" onclick="togglePlat(this)"><span class="plat-icon">🏠</span>Metrocuadrado<span class="plat-cat">portal</span></div>
+      <div class="plat active" data-src="fincaraiz" onclick="togglePlat(this)"><span class="plat-icon">🏡</span>Fincaraíz<span class="plat-cat">portal</span></div>
+      <div class="plat active" data-src="properati" onclick="togglePlat(this)"><span class="plat-icon">🔍</span>Properati<span class="plat-cat">portal</span></div>
+      <div class="plat active" data-src="ciencuadras" onclick="togglePlat(this)"><span class="plat-icon">🏢</span>Ciencuadras<span class="plat-cat">portal</span></div>
+    </div>
+    <div class="sec-label">Marketplaces y redes</div>
+    <div class="plats">
+      <div class="plat active" data-src="facebook" onclick="togglePlat(this)"><span class="plat-icon">📢</span>Facebook<span class="plat-cat">marketplace</span></div>
+      <div class="plat active" data-src="mercadolibre" onclick="togglePlat(this)"><span class="plat-icon">🛒</span>Mercado Libre<span class="plat-cat">marketplace</span></div>
+      <div class="plat active" data-src="instagram" onclick="togglePlat(this)"><span class="plat-icon">📸</span>Instagram<span class="plat-cat">inmobiliarias</span></div>
+    </div>
+  </div>
+
+  <button class="btn-search" id="btnSearch" onclick="buscar()">
+    <div class="spinner"></div>
+    <span class="btn-text">Buscar inmuebles</span>
+  </button>
+
+  <div id="results" class="results hidden"></div>
+</div>
+
+<script>
+let apiKey=localStorage.getItem('meraki_api_key')||'';
+
+function init(){
+  if(apiKey){
+    document.getElementById('apiBanner').classList.add('connected');
+    document.getElementById('apiMsg').textContent='API key configurada. Lista para buscar inmuebles reales.';
+    document.getElementById('apiToggle').textContent='Cambiar';
+    document.getElementById('apiKeyInput').value=apiKey;
+  }
+}
+
+function toggleApiForm(){
+  document.getElementById('apiForm').classList.toggle('show');
+}
+
+function saveApiKey(){
+  const k=document.getElementById('apiKeyInput').value.trim();
+  if(!k.startsWith('sk-ant-')){alert('La key debe empezar con sk-ant-');return;}
+  apiKey=k;
+  localStorage.setItem('meraki_api_key',k);
+  document.getElementById('apiForm').classList.remove('show');
+  init();
+}
+
+function togglePlat(el){el.classList.toggle('active')}
+function getPlats(){return[...document.querySelectorAll('.plat.active')].map(b=>b.dataset.src)}
+function fmt(v){const r=v.replace(/\./g,'').replace(/\D/g,'');return r?parseInt(r).toLocaleString('es-CO').replace(/,/g,'.'):''}
+function raw(id){return document.getElementById(id).value.replace(/\./g,'').replace(/\D/g,'')}
+
+['pmin','pmax'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',function(){
+    const c=this.selectionStart,pl=this.value.length;
+    this.value=fmt(this.value);
+    const d=this.value.length-pl;
+    this.setSelectionRange(c+d,c+d);
+  });
+});
+
+function fmtP(v){
+  if(!v)return null;
+  const n=parseInt(v);
+  if(n>=1000000)return'$'+(n/1000000).toFixed(1)+'M';
+  if(n>=1000)return'$'+(n/1000).toFixed(0)+'K';
+  return'$'+n;
+}
+
+function buildUrl(src,p){
+  const c=(p.ciudad||'medellin').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  const q=[p.inmueble,p.negocio,p.barrio].filter(Boolean).join(' ');
+  const m={
+    metrocuadrado:()=>{const tm={arriendo:'arrendar',venta:'venta'};const im={apartamento:'apartamento',casa:'casa',oficina:'oficina',local:'local-comercial',lote:'lote',finca:'finca'};let u=`https://www.metrocuadrado.com/${im[p.inmueble]||'apartamento'}/${tm[p.negocio]||'arrendar'}/${c}/`;const qs=[];if(p.pmin)qs.push(`precioMinimo=${p.pmin}`);if(p.pmax)qs.push(`precioMaximo=${p.pmax}`);if(p.hab)qs.push(`numHabitaciones=${p.hab}`);if(p.ban)qs.push(`numBanos=${p.ban}`);return u+(qs.length?'?'+qs.join('&'):'')},
+    fincaraiz:()=>{const tm={arriendo:'arriendo',venta:'venta'};const im={apartamento:'apartamentos',casa:'casas',oficina:'oficinas',local:'locales-comerciales',lote:'lotes',finca:'fincas'};let u=`https://www.fincaraiz.com.co/${im[p.inmueble]||'apartamentos'}/${tm[p.negocio]||'arriendo'}/${c.replace(/\s/g,'-')}/`;const qs=[];if(p.pmin)qs.push(`precioDesde=${p.pmin}`);if(p.pmax)qs.push(`precioHasta=${p.pmax}`);if(p.hab)qs.push(`habitaciones=${p.hab}`);return u+(qs.length?'?'+qs.join('&'):'')},
+    properati:()=>{const tm={arriendo:'alquiler',venta:'venta'};const im={apartamento:'departamento',casa:'casa',oficina:'oficina',local:'local',lote:'terreno',finca:'finca'};let u=`https://www.properati.com.co/${im[p.inmueble]||'departamento'}/${tm[p.negocio]||'alquiler'}/${c.replace(/\s/g,'-')}/`;const qs=[];if(p.pmin)qs.push(`price_from=${p.pmin}`);if(p.pmax)qs.push(`price_to=${p.pmax}`);return u+(qs.length?'?'+qs.join('&'):'')},
+    ciencuadras:()=>`https://www.ciencuadras.com/${p.inmueble||'apartamento'}/${p.negocio||'arriendo'}/${c.replace(/\s/g,'-')}/`,
+    facebook:()=>`https://www.facebook.com/marketplace/category/propertyforsale/?query=${encodeURIComponent(q)}&location=${encodeURIComponent(p.ciudad||'Medellín')}`,
+    mercadolibre:()=>`https://listado.mercadolibre.com.co/${encodeURIComponent(q.replace(/\s/g,'-'))}_OrderId_PRICE_NoIndex_True`,
+    instagram:()=>`https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent('inmobiliaria '+p.ciudad+' '+p.inmueble)}`
+  };
+  return m[src]?m[src]():'#';
+}
+
+const PI={metrocuadrado:{n:'Metrocuadrado',i:'🏠'},fincaraiz:{n:'Fincaraíz',i:'🏡'},properati:{n:'Properati',i:'🔍'},ciencuadras:{n:'Ciencuadras',i:'🏢'},facebook:{n:'Facebook Marketplace',i:'📢'},mercadolibre:{n:'Mercado Libre',i:'🛒'},instagram:{n:'Instagram',i:'📸'}};
+
+async function buscar(){
+  const plats=getPlats();
+  if(!plats.length){alert('Seleccioná al menos una plataforma');return;}
+  const p={negocio:document.getElementById('negocio').value,inmueble:document.getElementById('inmueble').value,ciudad:document.getElementById('ciudad').value||'Medellín',barrio:document.getElementById('barrio').value,pmin:raw('pmin'),pmax:raw('pmax'),hab:document.getElementById('hab').value,ban:document.getElementById('ban').value,park:document.getElementById('park').value,amin:document.getElementById('amin').value,amax:document.getElementById('amax').value};
+  const btn=document.getElementById('btnSearch');
+  btn.classList.add('loading');btn.disabled=true;
+  const div=document.getElementById('results');
+  div.classList.remove('hidden');
+  div.innerHTML='<div class="res-header">Buscando inmuebles...</div>';
+  if(apiKey)await buscarIA(p,plats,div);
+  else fallback(p,plats,div);
+  btn.classList.remove('loading');btn.disabled=false;
+  div.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+async function buscarIA(p,plats,div){
+  const pm=fmtP(p.pmin),px=fmtP(p.pmax);
+  const ps=pm&&px?`entre ${pm} y ${px}`:pm?`desde ${pm}`:px?`hasta ${px}`:'cualquier precio';
+  const pls=plats.map(s=>PI[s]?.n||s).join(', ');
+  const prompt=`Usa web_search para buscar anuncios REALES y ACTIVOS de ${p.inmueble} en ${p.negocio} en ${p.ciudad}${p.barrio?', '+p.barrio:''}, precio ${ps} COP.${p.hab?' Mín '+p.hab+' habitaciones.':''}${p.ban?' Mín '+p.ban+' baños.':''}${p.park==='si'?' Con parqueadero.':''}${p.amin?' Área mín '+p.amin+' m².':''}
+
+Busca en: ${pls}.
+
+REGLAS ESTRICTAS:
+- Solo incluir inmuebles que encontraste realmente en los resultados de búsqueda web.
+- El campo "url" debe ser el link EXACTO del anuncio (no la homepage del portal).
+- No inventes ni rellenes datos que no aparezcan en el anuncio.
+- Si no encontraste ningún resultado real, devuelve {"inmuebles":[]}.
+
+Devuelve SOLO JSON sin markdown:
+{"inmuebles":[{"titulo":"...","precio":"...","ubicacion":"...","habitaciones":"...","banos":"...","area":"...","fuente":"...","url":"..."}]}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:4000,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})});
+    if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'Error API');}
+    const data=await res.json();
+    const tb=data.content.find(b=>b.type==='text');
+    if(!tb)throw new Error('Sin respuesta del modelo');
+    const clean=tb.text.replace(/```json|```/g,'').trim();
+    const match=clean.match(/\{[\s\S]*\}/);
+    const json=JSON.parse(match?match[0]:clean);
+    if(!json.inmuebles?.length){
+      div.innerHTML=`<div class="err">No se encontraron inmuebles reales con esos filtros. Intentá con otros criterios o usá los portales directamente.</div>`;
+      fallback(p,plats,div,true);
+      return;
+    }
+    let html=`<div class="res-header">${json.inmuebles.length} inmuebles encontrados · ${p.ciudad}${p.barrio?', '+p.barrio:''}</div><div class="prop-grid">`;
+    json.inmuebles.forEach(item=>{
+      const hasUrl=item.url&&item.url!='#'&&item.url.startsWith('http');
+      html+=`<div class="prop-card"><div class="prop-img">🏠</div><div class="prop-body"><div class="prop-price">${item.precio||'Consultar'}</div><div class="prop-title">${item.titulo}</div><div class="prop-loc">📍 ${item.ubicacion||p.ciudad}</div><div class="prop-specs">${item.habitaciones?`<span class="prop-spec">🛏 ${item.habitaciones} hab</span>`:''} ${item.banos?`<span class="prop-spec">🚿 ${item.banos} baños</span>`:''} ${item.area?`<span class="prop-spec">📐 ${item.area}</span>`:''}</div><div class="prop-source">Fuente: ${item.fuente}</div>${hasUrl?`<a class="prop-btn" href="${item.url}" target="_blank" rel="noopener">Ver anuncio →</a>`:`<button class="prop-btn" disabled style="background:#ccc">Sin link</button>`}</div></div>`;
+    });
+    html+='</div>';
+    div.innerHTML=html;
+  }catch(e){
+    div.innerHTML=`<div class="err">Error: ${e.message}</div>`;
+    fallback(p,plats,div,true);
+  }
+}
+
+function fallback(p,plats,div,append=false){
+  const pm=fmtP(p.pmin),px=fmtP(p.pmax);
+  const pl=pm&&px?`${pm} – ${px}`:pm?`Desde ${pm}`:px?`Hasta ${px}`:'Sin límite';
+  const tags=[p.inmueble,p.negocio,p.hab?p.hab+' hab+':null,p.ban?p.ban+' baños+':null,p.park==='si'?'parqueadero':null].filter(Boolean);
+  let html=`<div class="notice">Abrí cada plataforma con tus filtros ya aplicados.</div><div class="fallback-cards">`;
+  plats.forEach(src=>{
+    const info=PI[src];if(!info)return;
+    const url=buildUrl(src,p);
+    html+=`<div class="fallback-card"><div class="fl"><div class="fdot">${info.i}</div><div class="fi"><div class="name">${info.n}</div><div class="meta">${pl}</div><div class="tags">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div></div><button class="vbtn" onclick="window.open('${url}','_blank')">Visitar →</button></div>`;
+  });
+  html+='</div>';
+  if(append)div.innerHTML+=html;else div.innerHTML=html;
+}
+
+init();
+</script>
+</body>
+</html>
