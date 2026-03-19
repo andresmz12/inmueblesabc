@@ -255,23 +255,14 @@ async function buscarIA(p,plats,div){
   const pm=fmtP(p.pmin),px=fmtP(p.pmax);
   const ps=pm&&px?`entre ${pm} y ${px}`:pm?`desde ${pm}`:px?`hasta ${px}`:'cualquier precio';
   const pls=plats.map(s=>PI[s]?.n||s).join(', ');
-  const prompt=`Eres un buscador de inmuebles en Colombia. Busca en internet inmuebles reales con estas características:
-- Tipo: ${p.inmueble} en ${p.negocio}
-- Ciudad: ${p.ciudad}${p.barrio?', zona: '+p.barrio:''}
-- Precio: ${ps} COP
-${p.hab?'- Habitaciones: '+p.hab+' o más':''}
-${p.ban?'- Baños: '+p.ban+' o más':''}
-${p.park==='si'?'- Con parqueadero':''}
-${p.amin?'- Área mínima: '+p.amin+' m²':''}
-- Buscar en: ${pls}
-- Publicados en el último mes preferiblemente
+  const prompt=`Busca inmuebles en Colombia: ${p.inmueble} en ${p.negocio}, ${p.ciudad}${p.barrio?', '+p.barrio:''}, precio ${ps} COP.${p.hab?' Hab: '+p.hab+'+.':''}${p.ban?' Baños: '+p.ban+'+.':''}${p.park==='si'?' Con parqueadero.':''}${p.amin?' Área mín: '+p.amin+'m².':''} Fuentes: ${pls}. Recientes.
 
-Devuelve SOLO un JSON puro sin markdown con esta estructura:
-{"inmuebles":[{"titulo":"...","precio":"...","ubicacion":"...","habitaciones":"...","banos":"...","area":"...","descripcion":"...","fuente":"...","url":"..."}]}
-Entre 6 y 12 inmuebles reales.`;
+Devuelve JSON sin markdown:
+{"inmuebles":[{"titulo":"...","precio":"...","ubicacion":"...","habitaciones":"...","banos":"...","area":"...","fuente":"...","url":"..."}]}
+6-12 inmuebles reales.`;
 
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:4000,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})});
     if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'Error API');}
     const data=await res.json();
     const tb=data.content.find(b=>b.type==='text');
